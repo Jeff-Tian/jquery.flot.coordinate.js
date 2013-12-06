@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Flot Examples: Markings</title>
+    <link href="examples.css" rel="stylesheet" type="text/css">
+    <!-- flot -->
+    <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="../lib/excanvas.js"></script><![endif]-->
+    <script language="javascript" type="text/javascript" src="../lib/jquery.js"></script>
+    <script language="javascript" type="text/javascript" src="../lib/jquery.colorhelpers.js"></script>
+    <script language="javascript" type="text/javascript" src="../lib/jquery.flot.js"></script>
+    <script language="javascript" type="text/javascript" src="../lib/jquery.flot.canvas.js"></script>
+	
+    <!-- this plugin -->
+    <script language="javascript" type="text/javascript" src="../jquery.flot.coordinate.js"></script>
+    <script type="text/javascript">
+
+        $(function () {
+            var data = [
+                [
+	                [-3, -5],
+	                [-2, 1],
+	                [1, 2],
+	                [3, 4],
+	                [5, 6],
+                    [7, 8]
+                ],
+                [
+                    [1, Math.sin(1)],
+                    [2, Math.sin(2)],
+                    [3, Math.sin(3)],
+                    [4, Math.sin(4)]
+                ]
+            ];
+
+            var options = {
+                grid: {
+                    show: true,
+                    borderColor: "#000",
+                    borderWidth: 0,
+                    aboveData: false
+                },
+                coordinate: {
+                	type: "default"
+                }
+            };
+
+            $(document).ready(function () {
+            	$.plot("#canvas-wrapper", data, options);
+
+	            $("input[type=checkbox]").change(function(event) {
+	            	var values = [];
+		            $.each($("input[type=checkbox]"), function(index, chk) {
+						if ($(chk).attr("checked")) {
+							values.push($(chk).attr("value"));
+						}
+		            });
+
+		            options.coordinate.type = values.join("|");
+
+		            $.plot("#canvas-wrapper", data, options);
+	            });
+            });
+        });
+
+    </script>
+</head>
+<body>
+
+    <div id="header">
+        <h2>Saving chart as image file</h2>
+    </div>
+
+    <div id="content">
+        <div class="demo-container">
+            <div id="canvas-wrapper" class="demo-placeholder"></div>
+        </div>
+
+        <p>This example shows how to add different coordinate axes to the flot chart.</p>
+	    <p>After you referenced the jquery.flot.coordinate.js, you can pass different coordinate name to the <strong>options</strong> object of the flot, and then the plugin will draw the axes for you.</p>
+		<p>Check which coordinate axes you want to use for this example chart:</p>
+		
+	    <div><input type="checkbox" id="chk-coordinate-default" value="default" checked="checked" /> <label for="chk-coordinate-default">Default</label></div>
+	    <div><input type="checkbox" id="chk-coordinate-rectangular" value="rectangular" /> <label for="chk-coordinate-rectangular">Rectangular</label></div>
+
+    </div>
+
+    <div id="footer">
+        Copyright &copy; 2013 http://zizhujy.com
+    </div>
+
+</body>
+</html>
