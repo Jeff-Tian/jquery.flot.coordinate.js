@@ -3,13 +3,28 @@
 Copyright (c) 2013 http://zizhujy.com.
 Licensed under the MIT license.
 
-The coordinate are accessed as strings through the coordinate option:
+Usage:
+    Inside the <head></head> area of your html page, add the following lines:
+    
+    <script type="text/javascript" src="http://zizhujy.com/Scripts/flot/jquery.flot.coordinate.js"></script>
 
-options{
-    coordinate: {
-        type: 'rectangular'
+    Now you are all set. This plugin will draw a default coordinate axes for you.
+
+Online examples:
+    http://zizhujy.com/Plotter is using it, you can take a look to get the first impression about what this plugin can do.
+
+Dependencies:
+    jquery.js
+    jquery.flot.js
+
+Customizations:
+    The coordinate type are accessed as strings separated by pipe line '|' through the coordinate option:
+
+    options{
+        coordinate: {
+            type: 'rectangular|default'
+        }
     }
-}
 */
 
 (function ($) {
