@@ -1,8 +1,8 @@
 jquery.flot.coordinate.js
 =========================
 
-Flot plugin that adds some extra coordinates in function graphing.
-------------------------------------------------------------------
+Flot plugin that adds some extra coordinate axes to flot chart.
+---------------------------------------------------------------
 
 **Usage:**
 

@@ -1,4 +1,4 @@
-﻿/* Flot plugin that adds some extra coordinates in function graphing.
+﻿/* Flot plugin that adds some extra coordinate axes to flot chart.
 
 Copyright (c) 2013 http://zizhujy.com.
 Licensed under the MIT license.
