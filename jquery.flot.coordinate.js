@@ -292,7 +292,8 @@ Customizations:
                 }
 
                 //surface = plot.getSurface();
-                surface = new classes.Canvas("flot-overlay", plot.getPlaceholder());
+                surface = new classes.Canvas("flot-coordinate", plot.getPlaceholder());
+                $(".flot-coordinate").remove().insertBefore($(".flot-overlay"));
 
                 // Draw coordinates
 
@@ -316,8 +317,24 @@ Customizations:
                 ctx.restore();
 
                 // Draw ticks and labels
+                $(".flot-text").filter(function(){return $(this).text() == "";}).remove();
                 drawAxisTicksAndLabels(plot, ctx, xaxis);
                 drawAxisTicksAndLabels(plot, ctx, yaxis);
+            },
+
+            auto: function (plot, ctx) {
+                var axes = plot.getAxes();
+                var xaxis = axes.xaxis;
+                var yaxis = axes.yaxis;
+
+                if(xaxis.min <= 0 && xaxis.max >= 0 &&
+                    yaxis.min <= 0 && yaxis.max >= 0) {
+
+                    this.rectangular(plot, ctx);
+                } else {
+
+                    this["default"](plot, ctx);
+                }
             }
         };
 
@@ -401,13 +418,23 @@ Customizations:
     }
 
     var options = {
-        coordinate: { type: 'default' }
+        coordinate: { type: 'default' },
+        xaxis: {
+            tickFormatter: function(v, axis){
+                return v;
+            }
+        },
+        yaxis: {
+            tickFormatter: function(v, axis){
+                return v;
+            }
+        }
     };
 
     $.plot.plugins.push({
         init: init,
         options: options,
         name: 'coordinate',
-        version: '1.1'
+        version: '1.2'
     });
 })(jQuery);
