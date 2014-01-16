@@ -41,12 +41,13 @@ Customizations:
             },
 
             rectangular: function (plot, ctx) {
+
                 function measureTickLabels(axis) {
-                    var opts = axis.options, ticks = axis.ticks || [],
-                axisw = opts.labelWidth || 0, axish = opts.labelHeight || 0,
-                legacyStyles = axis.direction + "Axis " + axis.direction + axis.n + "Axis",
-                layer = "flot-" + axis.direction + "-axis flot-" + axis.direction + axis.n + "-axis " + legacyStyles,
-                font = opts.font || "flot-tick-label tickLabel";
+                    var opts = axis.options, ticks = axis.ticks || [];
+                    var axisw = opts.labelWidth || 0, axish = opts.labelHeight || 0;
+                    var legacyStyles = axis.direction + "Axis " + axis.direction + axis.n + "Axis";
+                    var layer = "flot-" + axis.direction + "-axis flot-" + axis.direction + axis.n + "-axis " + legacyStyles;
+                    var font = opts.font || "flot-tick-label tickLabel";
 
                     for (var i = 0; i < ticks.length; ++i) {
 
@@ -87,17 +88,17 @@ Customizations:
                         // some data points that seemed reasonable
                         noTicks = 0.3 * Math.sqrt(axis.direction == "x" ? surface.width : surface.height);
 
-                    var delta = (axis.max - axis.min) / noTicks,
-                dec = -Math.floor(Math.log(delta) / Math.LN10),
-                maxDec = opts.tickDecimals;
+                    var delta = (axis.max - axis.min) / noTicks;
+                    var dec = -Math.floor(Math.log(delta) / Math.LN10);
+                    var maxDec = opts.tickDecimals;
 
                     if (maxDec != null && dec > maxDec) {
                         dec = maxDec;
                     }
 
-                    var magn = Math.pow(10, -dec),
-                norm = delta / magn, // norm is between 1.0 and 10.0
-                size;
+                    var magn = Math.pow(10, -dec);
+                    var norm = delta / magn; // norm is between 1.0 and 10.0
+                    var size;
 
                     if (norm < 1.5) {
                         size = 1;
@@ -317,7 +318,7 @@ Customizations:
                 ctx.restore();
 
                 // Draw ticks and labels
-                $(".flot-text").filter(function(){return $(this).text() == "";}).remove();
+                $(".flot-text").filter(function(){return $(this).html() == "";}).remove();
                 drawAxisTicksAndLabels(plot, ctx, xaxis);
                 drawAxisTicksAndLabels(plot, ctx, yaxis);
             },
@@ -330,10 +331,9 @@ Customizations:
                 if(xaxis.min <= 0 && xaxis.max >= 0 &&
                     yaxis.min <= 0 && yaxis.max >= 0) {
 
-                    this.rectangular(plot, ctx);
+                    this["rectangular"] && this.rectangular(plot, ctx);
                 } else {
-
-                    this["default"](plot, ctx);
+                    this["default"] && this["default"](plot, ctx);
                 }
             }
         };
