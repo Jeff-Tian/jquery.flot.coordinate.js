@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Flot Examples: Customizing coordinate axes</title>
+    <title>Flot Examples: Customizing coordinate axes (Auto mode)</title>
     <link href="examples.css" rel="stylesheet" type="text/css">
     <!-- flot -->
     <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="../lib/excanvas.js"></script><![endif]-->
@@ -69,10 +69,23 @@
             <div id="canvas-wrapper" class="demo-placeholder"></div>
         </div>
 
-        <p>This example shows how to add different coordinate axes to the flot chart.</p>
-        <p>After you referenced the jquery.flot.coordinate.js, you can pass different coordinate name to the <strong>options</strong> object of the flot, and then the plugin will draw the axes for you.</p>
+        <p>This example shows how to let this plugin to auto decide which coordinate to use.</p>
+        <p>As you saw in the previous example page, there are currently 2 coordinates supported by this plugin: </p>
+        <ul>
+            <li><strong>Default</strong>: which displays arrows and at the left and the bottom sides.</li>
+            <li><strong>Rectangular</strong>: which displays 2 lines across the origin point.</li>
+        </ul>
+        <p>Besides you specify a fixed type of coordinates, you can pass "<strong>auto</strong>" to the flot's <strong>options</strong> under <strong>coordinate</strong> object like this:
+        </p>
+        <pre>
+            var options = {
+                coordinate: {
+                    type: "default"
+                }
+            };
+        </pre>
         
-        <p>You can use different coordinate axes at the same time!</p>
+        <p>Then when this plug in will show a "Rectangular" coordinate if the origin is inside the viewport, other wise it will show a "Default" coordinate. <strong>Check out this feature by panning or zooming on the above chart!</strong></p>
     </div>
 
     <div id="footer">

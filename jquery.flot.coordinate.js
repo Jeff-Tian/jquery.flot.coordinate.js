@@ -38,6 +38,7 @@ Customizations:
             "default": function (plot, ctx) {
                 surface = new classes.Canvas("flot-base", plot.getPlaceholder());
                 drawAxiesAndArrows(plot, ctx);
+                $(".flot-text").show();
             },
 
             rectangular: function (plot, ctx) {
@@ -341,11 +342,21 @@ Customizations:
         var options = plot.getOptions();
 
         var coords = options.coordinate.type.split("|");
+
+        var $flotText = $(".flot-text");
+        $flotText.hide();
+
+        //$(".flot-text").filter(function(){return $(this).html() !== "";}).remove();
+
         for (var i = 0; i < coords.length; i++) {
             var s = coords[i];
 
-            if (handlers[s])
-                handlers[s](plot, canvascontext);
+            if (handlers[s]){
+                // if($(".flot-text").length <= 0) {
+                //     $flotText.insertAfter(".flot-base");
+                // }
+                handlers[s](plot, canvascontext, $flotText);
+            }
         }
     }
 
