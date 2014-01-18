@@ -143,7 +143,7 @@ Licensed under the MIT license.
      * Finishes rendering the canvas, including managing the text overlay.
      */
     Canvas.prototype.render = function () {
-
+        
         var cache = this._textCache;
 
         // For each text layer, add elements marked as active that haven't

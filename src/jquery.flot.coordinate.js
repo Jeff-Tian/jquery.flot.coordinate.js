@@ -38,15 +38,17 @@ Customizations:
             "default": function (plot, ctx) {
                 surface = new classes.Canvas("flot-base", plot.getPlaceholder());
                 drawAxiesAndArrows(plot, ctx);
+                $(".flot-text").show();
             },
 
             rectangular: function (plot, ctx) {
+
                 function measureTickLabels(axis) {
-                    var opts = axis.options, ticks = axis.ticks || [],
-                axisw = opts.labelWidth || 0, axish = opts.labelHeight || 0,
-                legacyStyles = axis.direction + "Axis " + axis.direction + axis.n + "Axis",
-                layer = "flot-" + axis.direction + "-axis flot-" + axis.direction + axis.n + "-axis " + legacyStyles,
-                font = opts.font || "flot-tick-label tickLabel";
+                    var opts = axis.options, ticks = axis.ticks || [];
+                    var axisw = opts.labelWidth || 0, axish = opts.labelHeight || 0;
+                    var legacyStyles = axis.direction + "Axis " + axis.direction + axis.n + "Axis";
+                    var layer = "flot-" + axis.direction + "-axis flot-" + axis.direction + axis.n + "-axis " + legacyStyles;
+                    var font = opts.font || "flot-tick-label tickLabel";
 
                     for (var i = 0; i < ticks.length; ++i) {
 
@@ -87,17 +89,17 @@ Customizations:
                         // some data points that seemed reasonable
                         noTicks = 0.3 * Math.sqrt(axis.direction == "x" ? surface.width : surface.height);
 
-                    var delta = (axis.max - axis.min) / noTicks,
-                dec = -Math.floor(Math.log(delta) / Math.LN10),
-                maxDec = opts.tickDecimals;
+                    var delta = (axis.max - axis.min) / noTicks;
+                    var dec = -Math.floor(Math.log(delta) / Math.LN10);
+                    var maxDec = opts.tickDecimals;
 
                     if (maxDec != null && dec > maxDec) {
                         dec = maxDec;
                     }
 
-                    var magn = Math.pow(10, -dec),
-                norm = delta / magn, // norm is between 1.0 and 10.0
-                size;
+                    var magn = Math.pow(10, -dec);
+                    var norm = delta / magn; // norm is between 1.0 and 10.0
+                    var size;
 
                     if (norm < 1.5) {
                         size = 1;
@@ -292,7 +294,8 @@ Customizations:
                 }
 
                 //surface = plot.getSurface();
-                surface = new classes.Canvas("flot-overlay", plot.getPlaceholder());
+                surface = new classes.Canvas("flot-coordinate", plot.getPlaceholder());
+                $(".flot-coordinate").remove().insertBefore($(".flot-overlay"));
 
                 // Draw coordinates
 
@@ -316,19 +319,44 @@ Customizations:
                 ctx.restore();
 
                 // Draw ticks and labels
+                $(".flot-text").filter(function(){return $(this).html() == "";}).remove();
                 drawAxisTicksAndLabels(plot, ctx, xaxis);
                 drawAxisTicksAndLabels(plot, ctx, yaxis);
+            },
+
+            auto: function (plot, ctx) {
+                var axes = plot.getAxes();
+                var xaxis = axes.xaxis;
+                var yaxis = axes.yaxis;
+
+                if(xaxis.min <= 0 && xaxis.max >= 0 &&
+                    yaxis.min <= 0 && yaxis.max >= 0) {
+
+                    this["rectangular"] && this.rectangular(plot, ctx);
+                } else {
+                    this["default"] && this["default"](plot, ctx);
+                }
             }
         };
 
         var options = plot.getOptions();
 
         var coords = options.coordinate.type.split("|");
+
+        var $flotText = $(".flot-text");
+        $flotText.hide();
+
+        //$(".flot-text").filter(function(){return $(this).html() !== "";}).remove();
+
         for (var i = 0; i < coords.length; i++) {
             var s = coords[i];
 
-            if (handlers[s])
-                handlers[s](plot, canvascontext);
+            if (handlers[s]){
+                // if($(".flot-text").length <= 0) {
+                //     $flotText.insertAfter(".flot-base");
+                // }
+                handlers[s](plot, canvascontext, $flotText);
+            }
         }
     }
 
@@ -401,13 +429,23 @@ Customizations:
     }
 
     var options = {
-        coordinate: { type: 'default' }
+        coordinate: { type: 'default' },
+        xaxis: {
+            tickFormatter: function(v, axis){
+                return v;
+            }
+        },
+        yaxis: {
+            tickFormatter: function(v, axis){
+                return v;
+            }
+        }
     };
 
     $.plot.plugins.push({
         init: init,
         options: options,
         name: 'coordinate',
-        version: '1.1'
+        version: '1.2'
     });
 })(jQuery);
