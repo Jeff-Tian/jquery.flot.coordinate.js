@@ -37,6 +37,7 @@ Customizations:
         var handlers = {
             "default": function (plot, ctx) {
                 surface = new classes.Canvas("flot-base", plot.getPlaceholder());
+                handleRatioXY(plot);
                 drawAxiesAndArrows(plot, ctx);
                 $(".flot-text").show();
             },
@@ -266,32 +267,7 @@ Customizations:
                 xaxis.used = true;
                 yaxis.used = true;
 
-                // Handle axes ratio
-                if (options.coordinate.ratioXY) {
-                    $.extend(true, xaxis.options, { min: xaxis.min, max: xaxis.max });
-                    $.extend(true, yaxis.options, { min: yaxis.min, max: yaxis.max });
-
-                    var ratio = parseFloat(options.coordinate.ratioXY);
-                    // deltaX / deltaY = ratioXY * width / height
-                    xaxis.options = xaxis.options || {};
-                    if (!xaxis.options.max) xaxis.options.max = 10;
-                    if (!xaxis.options.min) xaxis.options.min = -10;
-                    var deltaX = xaxis.options.max - xaxis.options.min;
-                    var deltaY = deltaX / (ratio * plot.width() / plot.height());
-
-                    yaxis.options = yaxis.options || {};
-                    if (!yaxis.options.max) yaxis.options.max = 10;
-                    if (!yaxis.options.min) yaxis.options.min = -10;
-                    var r = (yaxis.options.max - yaxis.options.min) / deltaY;
-
-                    // Adjust y-axis based on the ratio and x-axis
-                    yaxis.options.max = yaxis.options.max / r;
-                    yaxis.options.min = yaxis.options.min / r;
-
-                    $.extend(true, options, { xaxis: { options: { min: xaxis.options.min, max: xaxis.options.max } }, yaxis: { options: { min: yaxis.options.min, max: yaxis.options.max } } });
-                    plot.setupGrid();
-                    //alert("coor " + xaxis.options.min);
-                }
+                handleRatioXY(plot);
 
                 //surface = plot.getSurface();
                 surface = new classes.Canvas("flot-coordinate", plot.getPlaceholder());
@@ -319,7 +295,7 @@ Customizations:
                 ctx.restore();
 
                 // Draw ticks and labels
-                $(".flot-text").filter(function(){return $(this).html() == "";}).remove();
+                $(".flot-text").filter(function () { return $(this).html() == ""; }).remove();
                 drawAxisTicksAndLabels(plot, ctx, xaxis);
                 drawAxisTicksAndLabels(plot, ctx, yaxis);
             },
@@ -329,7 +305,7 @@ Customizations:
                 var xaxis = axes.xaxis;
                 var yaxis = axes.yaxis;
 
-                if(xaxis.min <= 0 && xaxis.max >= 0 &&
+                if (xaxis.min <= 0 && xaxis.max >= 0 &&
                     yaxis.min <= 0 && yaxis.max >= 0) {
 
                     this["rectangular"] && this.rectangular(plot, ctx);
@@ -351,12 +327,45 @@ Customizations:
         for (var i = 0; i < coords.length; i++) {
             var s = coords[i];
 
-            if (handlers[s]){
+            if (handlers[s]) {
                 // if($(".flot-text").length <= 0) {
                 //     $flotText.insertAfter(".flot-base");
                 // }
                 handlers[s](plot, canvascontext, $flotText);
             }
+        }
+    }
+    function handleRatioXY(plot) {
+        // Handle axes ratio
+        var options = plot.getOptions();
+        var axes = plot.getAxes();
+        var xaxis = axes.xaxis;
+        var yaxis = axes.yaxis;
+
+        if (options.coordinate.ratioXY) {
+            $.extend(true, xaxis.options, { min: xaxis.min, max: xaxis.max });
+            $.extend(true, yaxis.options, { min: yaxis.min, max: yaxis.max });
+
+            var ratio = parseFloat(options.coordinate.ratioXY);
+            // deltaX / deltaY = ratioXY * width / height
+            xaxis.options = xaxis.options || {};
+            if (!xaxis.options.max) xaxis.options.max = 10;
+            if (!xaxis.options.min) xaxis.options.min = -10;
+            var deltaX = xaxis.options.max - xaxis.options.min;
+            var deltaY = deltaX / (ratio * plot.width() / plot.height());
+
+            yaxis.options = yaxis.options || {};
+            if (!yaxis.options.max) yaxis.options.max = 10;
+            if (!yaxis.options.min) yaxis.options.min = -10;
+            var r = (yaxis.options.max - yaxis.options.min) / deltaY;
+
+            // Adjust y-axis based on the ratio and x-axis
+            yaxis.options.max = yaxis.options.max / r;
+            yaxis.options.min = yaxis.options.min / r;
+
+            $.extend(true, options, { xaxis: { options: { min: xaxis.options.min, max: xaxis.options.max } }, yaxis: { options: { min: yaxis.options.min, max: yaxis.options.max } } });
+            plot.setupGrid();
+            //alert("coor " + xaxis.options.min);
         }
     }
 
@@ -431,12 +440,12 @@ Customizations:
     var options = {
         coordinate: { type: 'default' },
         xaxis: {
-            tickFormatter: function(v, axis){
+            tickFormatter: function (v, axis) {
                 return v;
             }
         },
         yaxis: {
-            tickFormatter: function(v, axis){
+            tickFormatter: function (v, axis) {
                 return v;
             }
         }
@@ -446,6 +455,6 @@ Customizations:
         init: init,
         options: options,
         name: 'coordinate',
-        version: '1.2'
+        version: '1.3'
     });
 })(jQuery);
