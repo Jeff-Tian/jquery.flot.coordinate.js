@@ -341,8 +341,7 @@ Customizations:
         var axes = plot.getAxes();
         var xaxis = axes.xaxis;
         var yaxis = axes.yaxis;
-
-        if (options.coordinate.ratioXY) {
+        if (!!options.coordinate.ratioXY) {
             $.extend(true, xaxis.options, { min: xaxis.min, max: xaxis.max });
             $.extend(true, yaxis.options, { min: yaxis.min, max: yaxis.max });
 

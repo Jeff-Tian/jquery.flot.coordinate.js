@@ -30,7 +30,8 @@ The coordinate type are accessed as strings separated by pipe line '|' through t
 ```javascript
 options{
     coordinate: {
-        type: 'rectangular|default'
+        type: 'rectangular|default', // or 'auto' to make the coordinate auto switch according the current view port.
+		ratioXY: 1					// or <null> / undefined
     }
 }
 ```
@@ -39,6 +40,9 @@ options{
 
 - [Online plotter](http://zizhujy.com/plotter "Online plotter")
 - [Online Function Grapher](http://zizhujy.com/functiongrapher "Online Function Grapher")
+- [Basic Usage](examples/FlotCoordinate.html "Basic Usage")
+- [Auto switch coordinate](examples/FlotCoordinate (auto mode).html "Auto switch coordinate")
+- [Keep axes ratio](examples/FlotCoordinate (Keep axes ratio).html "Keep axes ratio")
 
 **Screenshots:**
 
