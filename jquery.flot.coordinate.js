@@ -36,6 +36,7 @@ Customizations:
     function processCoordinates(plot, canvascontext) {
         var handlers = {
             "default": function (plot, ctx) {
+                setAxesVisibility(plot, true);
                 surface = new classes.Canvas("flot-base", plot.getPlaceholder());
                 handleRatioXY(plot);
                 drawAxiesAndArrows(plot, ctx);
@@ -243,6 +244,8 @@ Customizations:
                     ctx.restore();
                 }
 
+                setAxesVisibility(plot, false);
+
                 var options = plot.getOptions();
 
                 var axes = plot.getAxes();
@@ -304,7 +307,6 @@ Customizations:
                 var axes = plot.getAxes();
                 var xaxis = axes.xaxis;
                 var yaxis = axes.yaxis;
-
                 if (xaxis.min <= 0 && xaxis.max >= 0 &&
                     yaxis.min <= 0 && yaxis.max >= 0) {
 
@@ -335,6 +337,31 @@ Customizations:
             }
         }
     }
+
+    function setAxesVisibility(plot, show) {
+        var options = plot.getOptions();
+        $.extend(true, options, { xaxis: { show: true, reserveSpace: true }, yaxis: { show: true, reserveSpace: true } });
+
+        var xaxes = plot.getXAxes();
+        var yaxes = plot.getYAxes();
+
+        $.each(xaxes, function (index, xaxis) {
+            xaxis.show = show;
+            xaxis.reserveSpace = show;
+
+            xaxis.options.show = show;
+            xaxis.options.reserveSpace = show;
+        });
+
+        $.each(yaxes, function (index, yaxis) {
+            yaxis.show = show;
+            yaxis.reserveSpace = show;
+
+            yaxis.options.show = show;
+            yaxis.options.reserveSpace = show;
+        });
+    }
+
     function handleRatioXY(plot) {
         // Handle axes ratio
         var options = plot.getOptions();
@@ -455,6 +482,6 @@ Customizations:
         init: init,
         options: options,
         name: 'coordinate',
-        version: '1.3'
+        version: '1.4'
     });
 })(jQuery);
