@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Flot Examples: Customizing coordinate axes (Auto mode)</title>
+    <link href="examples.css" rel="stylesheet" type="text/css">
+    <!-- flot -->
+    <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="../lib/excanvas.js"></script><![endif]-->
+    <script language="javascript" type="text/javascript" src="../lib/jquery.js"></script>
+    <script language="javascript" type="text/javascript" src="../lib/jquery.colorhelpers.js"></script>
+    <script language="javascript" type="text/javascript" src="../lib/jquery.flot.js"></script>
+    <script language="javascript" type="text/javascript" src="../lib/jquery.flot.navigate.js"></script>
+	
+    <!-- this plugin -->
+    <script language="javascript" type="text/javascript" src="../jquery.flot.coordinate.js"></script>
+    <script type="text/javascript">
+
+        $(function () {
+            var data = [
+                [
+	                [-3, -5],
+	                [-2, 1],
+	                [1, 2],
+	                [3, 4],
+	                [5, 6],
+                    [7, 8]
+                ],
+                [
+                    [1, Math.sin(1)],
+                    [2, Math.sin(2)],
+                    [3, Math.sin(3)],
+                    [4, Math.sin(4)]
+                ]
+            ];
+
+            var options = {
+                grid: {
+                    show: true,
+                    borderColor: "#000",
+                    borderWidth: 0,
+                    aboveData: false
+                },
+                coordinate: {
+                	type: "auto"
+                },     
+                zoom: {
+                    interactive: true
+                },
+                pan: {
+                    interactive: true
+                }
+            };
+
+            $(document).ready(function () {
+            	$.plot("#canvas-wrapper", data, options);
+            });
+        });
+
+    </script>
+</head>
+<body>
+
+    <div id="header">
+        <h2>Customizing coordinate axes</h2>
+    </div>
+
+    <div id="content">
+        <div class="demo-container">
+            <div id="canvas-wrapper" class="demo-placeholder"></div>
+        </div>
+
+        <p>This example shows how to let this plugin to auto decide which coordinate to use.</p>
+        <p>As you saw in the previous example page, there are currently 2 coordinates supported by this plugin: </p>
+        <ul>
+            <li><strong>Default</strong>: which displays arrows and at the left and the bottom sides.</li>
+            <li><strong>Rectangular</strong>: which displays 2 lines across the origin point.</li>
+        </ul>
+        <p>Besides you specify a fixed type of coordinates, you can pass "<strong>auto</strong>" to the flot's <strong>options</strong> under <strong>coordinate</strong> object like this:
+        </p>
+        <pre>
+            var options = {
+                coordinate: {
+                    type: "auto"
+                }
+            };
+        </pre>
+        
+        <p>Then this plug in will show a "Rectangular" coordinate if the origin is inside the viewport, other wise it will show a "Default" coordinate. <strong>Check out this feature by panning or zooming on the above chart!</strong></p>
+    </div>
+
+    <div id="footer">
+        Copyright &copy; 2013 http://zizhujy.com
+    </div>
+
+</body>
+</html>
