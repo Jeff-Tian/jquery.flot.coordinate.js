@@ -298,7 +298,7 @@ Customizations:
                 ctx.restore();
 
                 // Draw ticks and labels
-                $(".flot-text").filter(function () { return $(this).html() == ""; }).remove();
+                $(".flot-text").filter(function () { return $(this).text() === ""; }).remove();
                 drawAxisTicksAndLabels(plot, ctx, xaxis);
                 drawAxisTicksAndLabels(plot, ctx, yaxis);
             },
@@ -482,6 +482,6 @@ Customizations:
         init: init,
         options: options,
         name: 'coordinate',
-        version: '1.4'
+        version: '1.5'
     });
 })(jQuery);
