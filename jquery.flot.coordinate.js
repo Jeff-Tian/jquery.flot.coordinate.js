@@ -298,7 +298,6 @@ Customizations:
                 ctx.restore();
 
                 // Draw ticks and labels
-                $(".flot-text").filter(function () { return $(this).text() === ""; }).remove();
                 drawAxisTicksAndLabels(plot, ctx, xaxis);
                 drawAxisTicksAndLabels(plot, ctx, yaxis);
             },
@@ -461,6 +460,8 @@ Customizations:
             if (!!options.yaxis.highlightTick && !!options.yaxis.highlightColor) {
                 $(".flot-y-axis ." + options.yaxis.highlightTick).css({ "color": options.yaxis.highlightColor });
             }
+
+            $(".flot-text").filter(function () { return $(this).text() === ""; }).remove();
         });
     }
 
@@ -482,6 +483,6 @@ Customizations:
         init: init,
         options: options,
         name: 'coordinate',
-        version: '1.5'
+        version: '1.6'
     });
 })(jQuery);
